@@ -1,1 +1,2 @@
--   Add i18n
+- Add dropdown alert manager  
+- Add i18n
