@@ -1,5 +1,9 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
+import {
+    NavigationContainer,
+    getFocusedRouteNameFromRoute,
+    RouteProp,
+} from '@react-navigation/native'
 import {
     BottomTabBarOptions,
     BottomTabNavigationOptions,
@@ -36,7 +40,11 @@ const AppTabBarOptions: BottomTabBarOptions = {
     activeTintColor: APP_COLORS.green,
 }
 
-const ShoppingListsRouteOptions: BottomTabNavigationOptions = {
+const ShoppingListsRouteOptions = ({
+    route,
+}: {
+    route: RouteProp<AppTabBarParams, 'ShoppingListsRoute'>
+}): BottomTabNavigationOptions => ({
     title: i18n.t('my_lists'),
     tabBarIcon: ({ focused, size }) => (
         <Icon
@@ -45,7 +53,8 @@ const ShoppingListsRouteOptions: BottomTabNavigationOptions = {
             color={focused ? APP_COLORS.green : APP_COLORS.gray}
         />
     ),
-}
+    tabBarVisible: getFocusedRouteNameFromRoute(route) !== 'NewListScreen',
+})
 
 const ArchivedShoppingListsRouteOptions: BottomTabNavigationOptions = {
     title: i18n.t('archived_lists'),
