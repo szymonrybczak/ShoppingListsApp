@@ -1,6 +1,8 @@
+import List from '../../models/List'
+
 type ShoppingListsRouteParams = {
     ShoppingListsScreen: undefined
-    ShoppingListDetailsScreen: undefined
+    ShoppingListDetailsScreen: { list: List }
     NewListScreen: undefined
     AddProductsScreen: undefined
     ProductDetailsScreen: undefined

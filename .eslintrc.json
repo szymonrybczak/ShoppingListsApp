@@ -26,6 +26,7 @@
         "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
         "no-use-before-define": "off",
         "react/prop-types": "off",
+        "no-undef": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
