@@ -13,6 +13,9 @@
   "error_occurred_please_try_again": "Error occurred, please try again.",
   "successfully_changed_list_name": "Successfully changed list name!",
   "successfully_deleted_list": "Successfully deleted list!",
-  "list_name_is_empty": "List name can't be empty"
+  "successfully_created_list": "Successfully created list!",
+  "list_name_is_empty": "List name can't be empty",
+  "back": "Back",
+  "create": "Create"
 }
 

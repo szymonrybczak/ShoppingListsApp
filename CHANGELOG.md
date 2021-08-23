@@ -1,3 +1,4 @@
+- Create new list screen
 - Create shopping lists screen
 - Create navigators and views
 - Add dropdown alert manager  

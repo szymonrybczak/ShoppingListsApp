@@ -43,6 +43,17 @@ export async function deleteList(list: List) {
     }
 }
 
+export async function createList(list: List) {
+    try {
+        const lists = await getLists()
+        const allLists = lists.concat(list)
+
+        await saveToAsyncStorage('lists', JSON.stringify(allLists))
+    } catch {
+        handleError()
+    }
+}
+
 export async function getListIndex(list: List): Promise<number> {
     const defaultReturnValue = -1
 

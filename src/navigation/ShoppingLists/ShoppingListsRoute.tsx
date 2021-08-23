@@ -1,7 +1,9 @@
 import React from 'react'
 import {
     createStackNavigator,
+    HeaderBackButton,
     StackNavigationOptions,
+    StackNavigationProp,
 } from '@react-navigation/stack'
 import ShoppingListsRouteParams from './ShoppingListsRouteParams'
 import ShoppingListsScreen from '../../screens/ShoppingListsScreen/ShoppingListsScreen'
@@ -60,9 +62,26 @@ const ShoppingListsScreenOptions = {
     title: i18n.t('my_lists'),
 }
 
-const ShoppingListDetailsScreenOptions = {}
+const ShoppingListDetailsScreenOptions = ({
+    navigation,
+}: {
+    navigation: StackNavigationProp<
+        ShoppingListsRouteParams,
+        'ShoppingListDetailsScreen'
+    >
+}): StackNavigationOptions => ({
+    headerLeft: () => (
+        <HeaderBackButton
+            label={' '}
+            onPress={() => navigation.navigate('ShoppingListsScreen')}
+            tintColor={APP_COLORS.white}
+        />
+    ),
+})
 
-const NewListScreenOptions = {}
+const NewListScreenOptions: StackNavigationOptions = {
+    headerShown: false,
+}
 
 const AddProductScreenOptions = {}
 
