@@ -130,7 +130,7 @@ const ShoppingListsScreenItem: React.FC<ShoppingListsScreenItemProps> = ({
         )
     }
 
-    const renderNewListNameAlert = (): JSX.Element => (
+    const renderRenameListAlert = (): JSX.Element => (
         <Dialog.Container visible={renameListAlertVisible}>
             <Dialog.Title>{i18n.t('change_list_name')}</Dialog.Title>
             <Dialog.Input
@@ -186,7 +186,7 @@ const ShoppingListsScreenItem: React.FC<ShoppingListsScreenItemProps> = ({
                 }>
                 {renderNamePurchasedLabel()}
                 {renderProgressBar()}
-                {renderNewListNameAlert()}
+                {renderRenameListAlert()}
             </TouchableOpacity>
         </Swipeable>
     )
