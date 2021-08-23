@@ -46,6 +46,7 @@ const ShoppingListsRouteOptions: BottomTabNavigationOptions = {
         />
     ),
 }
+
 const ArchivedShoppingListsRouteOptions: BottomTabNavigationOptions = {
     title: i18n.t('archived_lists'),
     tabBarIcon: ({ focused, size }) => (

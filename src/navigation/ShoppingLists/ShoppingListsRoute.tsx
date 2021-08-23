@@ -3,7 +3,7 @@ import {
     createStackNavigator,
     StackNavigationOptions,
 } from '@react-navigation/stack'
-import ShoppingListRouteParams from './ShoppingListRouteParams'
+import ShoppingListsRouteParams from './ShoppingListsRouteParams'
 import ShoppingListsScreen from '../../screens/ShoppingListsScreen/ShoppingListsScreen'
 import NewListScreen from '../../screens/NewListScreen/NewListScreen'
 import AddProductsScreen from '../../screens/AddProductScreen/AddProductsScreen'
@@ -13,7 +13,7 @@ import i18n from '../../common/i18n/i18n'
 import APP_COLORS from '../../common/colors'
 import ShoppingListDetailsScreen from '../../screens/ShoppingListDetailsScreen/ShoppingListDetailsScreen'
 
-const Stack = createStackNavigator<ShoppingListRouteParams>()
+const Stack = createStackNavigator<ShoppingListsRouteParams>()
 
 const ShoppingListsRoute = () => (
     <Stack.Navigator screenOptions={ShoppingListsRouteStackNavigatorOptions}>

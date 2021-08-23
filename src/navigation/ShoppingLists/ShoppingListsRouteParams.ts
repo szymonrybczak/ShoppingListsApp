@@ -1,4 +1,4 @@
-type ShoppingListRouteParams = {
+type ShoppingListsRouteParams = {
     ShoppingListsScreen: undefined
     ShoppingListDetailsScreen: undefined
     NewListScreen: undefined
@@ -7,4 +7,4 @@ type ShoppingListRouteParams = {
     CategoriesListScreen: undefined
 }
 
-export default ShoppingListRouteParams
+export default ShoppingListsRouteParams
