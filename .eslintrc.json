@@ -25,6 +25,7 @@
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
         "no-use-before-define": "off",
+        "react/prop-types": "off",
         "import/extensions": [
             "error",
             "ignorePackages",

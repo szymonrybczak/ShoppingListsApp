@@ -1,5 +1,7 @@
 {
   "alert_successful_title": "Hurra!",
-  "alert_error_title": "Ups!"
+  "alert_error_title": "Ups!",
+  "my_lists": "My lists",
+  "archived_lists": "Archived lists"
 }
 
