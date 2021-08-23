@@ -50,3 +50,10 @@ export default class AppAlertManager {
         this.dropdown.alertWithType(type, title, description)
     }
 }
+
+export const handleError = () => {
+    AppAlertManager.showErrorToast(
+        undefined,
+        i18n.t('error_occurred_please_try_again')
+    )
+}

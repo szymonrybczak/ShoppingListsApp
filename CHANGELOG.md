@@ -1,3 +1,4 @@
+- Create shopping lists screen
 - Create navigators and views
 - Add dropdown alert manager  
 - Add i18n

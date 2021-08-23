@@ -2,6 +2,17 @@
   "alert_successful_title": "Hurra!",
   "alert_error_title": "Ups!",
   "my_lists": "My lists",
-  "archived_lists": "Archived lists"
+  "archived_lists": "Archived lists",
+  "empty_shopping_list": "Create your list,\n just tap the blue button.",
+  "edit": "Edit",
+  "delete": "Delete",
+  "change_list_name": "Change list name",
+  "list_name": "List name",
+  "cancel": "Cancel",
+  "change": "Change",
+  "error_occurred_please_try_again": "Error occurred, please try again.",
+  "successfully_changed_list_name": "Successfully changed list name!",
+  "successfully_deleted_list": "Successfully deleted list!",
+  "list_name_is_empty": "List name can't be empty"
 }
 
