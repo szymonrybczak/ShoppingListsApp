@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-    createStackNavigator,
-    HeaderBackButton,
     StackNavigationOptions,
     StackNavigationProp,
+    HeaderBackButton,
+    createStackNavigator,
 } from '@react-navigation/stack'
 import ShoppingListsRouteParams from './ShoppingListsRouteParams'
 import ShoppingListsScreen from '../../screens/ShoppingListsScreen/ShoppingListsScreen'
@@ -58,7 +58,7 @@ const ShoppingListsRouteStackNavigatorOptions: StackNavigationOptions = {
     headerTintColor: APP_COLORS.white,
 }
 
-const ShoppingListsScreenOptions = {
+const ShoppingListsScreenOptions: StackNavigationOptions = {
     title: i18n.t('my_lists'),
 }
 
@@ -83,10 +83,12 @@ const NewListScreenOptions: StackNavigationOptions = {
     headerShown: false,
 }
 
-const AddProductScreenOptions = {}
+const AddProductScreenOptions: StackNavigationOptions = {}
 
-const ProductDetailsScreenOptions = {}
+const ProductDetailsScreenOptions: StackNavigationOptions = {}
 
-const CategoriesListScreenOptions = {}
+const CategoriesListScreenOptions: StackNavigationOptions = {
+    title: i18n.t('choose_category'),
+}
 
 export default ShoppingListsRoute

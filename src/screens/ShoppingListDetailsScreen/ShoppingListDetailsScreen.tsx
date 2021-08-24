@@ -6,7 +6,7 @@ import ShoppingListsRouteParams from '../../navigation/ShoppingLists/ShoppingLis
 import Product from '../../models/Product'
 import AppActivityIndicator from '../../components/AppActivityIndicator'
 import PlaceholderComponent from '../../components/PlaceholderComponent'
-import { APP_IMAGE } from '../../common/assets'
+import APP_IMAGE from '../../common/images'
 import i18n from '../../common/i18n/i18n'
 import CreateButton from '../../components/CreateButton'
 import { getList } from '../../helpers/deviceStorage'

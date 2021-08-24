@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, View, Text } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
-import { APP_IMAGE } from '../common/assets'
+import APP_IMAGE from '../common/images'
 
 interface PlaceholderComponentProps {
     title: string

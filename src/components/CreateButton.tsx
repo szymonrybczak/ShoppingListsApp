@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, Image } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
-import { APP_ICONS } from '../common/assets'
+import APP_ICONS from '../common/icons'
 import APP_COLORS from '../common/colors'
 
 interface CreateButtonProps {
