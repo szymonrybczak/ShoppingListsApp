@@ -75,6 +75,7 @@ const NewListScreen: React.FC<NewListsScreenProps> = ({ navigation }) => {
             value={listName}
             onChangeText={(text: string) => setListName(text)}
             style={styles.textInput}
+            textAlign="center"
         />
     )
 

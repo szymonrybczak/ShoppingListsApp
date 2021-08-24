@@ -35,6 +35,7 @@ const ShoppingListDetailsScreenItem: React.FC<ShoppingListDetailsScreenItemProps
 
         const handleChangePurchasedStatus = async () => {
             await purchaseProduct(product, list)
+            await fetchProducts()
         }
 
         const handleNavigateToProductDetailsScreen = () => {
@@ -42,7 +43,7 @@ const ShoppingListDetailsScreenItem: React.FC<ShoppingListDetailsScreenItemProps
         }
 
         const handleNavigateToCategoriesListScreen = () => {
-            navigation.navigate('CategoriesListScreen')
+            navigation.navigate('CategoriesListScreen', { product, list })
         }
 
         const handleDeleteCurrentItem = async () => {

@@ -12,6 +12,7 @@ import CreateButton from '../../components/CreateButton'
 import { getList } from '../../helpers/deviceStorage'
 import { handleError } from '../../helpers/AppAlertManager'
 import ShoppingListDetailsScreenItem from './ShoppingListDetailsScreenItem'
+import List from '../../models/List'
 
 type ShoppingListDetailsScreenRouteProp = RouteProp<
     ShoppingListsRouteParams,
@@ -32,19 +33,28 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
     route,
     navigation,
 }) => {
-    const { list } = route.params
-
     const [loading, setLoading] = useState<boolean>(false)
-    const [products, setProducts] = useState<Product[]>([])
+    const [list, setList] = useState<List>(route.params.list)
 
     useEffect(() => {
         setNavigationTitle()
 
-        navigation.addListener('focus', () => fetchProducts())
+        navigation.addListener('focus', fetchProducts)
         return () => {
-            navigation.removeListener('focus', () => fetchProducts())
+            navigation.removeListener('focus', fetchProducts)
         }
     }, [])
+
+    /* ------------------------- Fetching ------------------------- */
+
+    const fetchProducts = () => {
+        setLoading(true)
+
+        getList(list)
+            .then((list) => setList(list))
+            .catch(handleError)
+            .finally(() => setLoading(false))
+    }
 
     /* ------------------------- Update UI ------------------------- */
 
@@ -52,16 +62,10 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
         navigation.setOptions({ title: list.name })
     }
 
-    /* ------------------------- Fetching ------------------------- */
+    /* ------------------------- Handlers ------------------------- */
 
-    const fetchProducts = () => {
-        setLoading(true)
-
-        getList(list.id)
-            .then((list) => setProducts(list.products))
-            .catch(handleError)
-            .finally(() => setLoading(false))
-    }
+    const handleNavigateToAddProductScreen = () =>
+        navigation.navigate('AddProductsScreen', { list })
 
     /* ------------------------- Render functions ------------------------- */
 
@@ -84,12 +88,12 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
     )
 
     const renderProductsList = (): JSX.Element => {
-        const isListEmpty = products.length === 0
+        const isListEmpty = list.products.length === 0
         if (isListEmpty) renderPlaceholderComponent()
 
         return (
             <FlatList
-                data={products}
+                data={list.products}
                 renderItem={({ item }) => renderItem(item)}
                 keyExtractor={(item) => item.name}
             />
@@ -97,9 +101,7 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
     }
 
     const renderNewProductButton = (): JSX.Element => (
-        <CreateButton
-            onPress={() => navigation.navigate('AddProductsScreen')}
-        />
+        <CreateButton onPress={handleNavigateToAddProductScreen} />
     )
 
     return (

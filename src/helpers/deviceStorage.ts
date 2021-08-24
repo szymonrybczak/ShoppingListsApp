@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { handleError } from './AppAlertManager'
 import List from '../models/List'
 import Product from '../models/Product'
+import Category from '../models/Category'
 
 /* ------------------------- Lists ------------------------- */
 
@@ -18,7 +19,7 @@ export async function renameList(list: List, newName: string) {
     try {
         const lists = await getLists()
 
-        const listIndex = await getListIndex(list.id)
+        const listIndex = await getListIndex(list)
         if (listIndex === -1) return
 
         lists[listIndex].name = newName
@@ -33,7 +34,7 @@ export async function deleteList(list: List) {
     try {
         const lists = await getLists()
 
-        const listIndex = await getListIndex(list.id)
+        const listIndex = await getListIndex(list)
         if (listIndex === -1) return
 
         lists.splice(listIndex, 1)
@@ -55,14 +56,14 @@ export async function createList(list: List) {
     }
 }
 
-export async function getListIndex(id: number): Promise<number> {
+export async function getListIndex(list: List): Promise<number> {
     const defaultReturnValue = -1
 
     try {
         const lists = await getLists()
         const listsIds = lists.map((list) => list.id)
 
-        const listIndex = listsIds.indexOf(id)
+        const listIndex = listsIds.indexOf(list.id)
 
         if (listIndex === -1) return defaultReturnValue
         if (lists[listIndex] === undefined) return defaultReturnValue
@@ -74,11 +75,11 @@ export async function getListIndex(id: number): Promise<number> {
     }
 }
 
-export async function getList(id: number): Promise<List> {
+export async function getList(list: List): Promise<List> {
     try {
         const lists = await getLists()
 
-        const listIndex = await getListIndex(id)
+        const listIndex = await getListIndex(list)
         if (listIndex === -1) return DefaultValues.list
 
         return lists[listIndex]
@@ -90,9 +91,87 @@ export async function getList(id: number): Promise<List> {
 
 /* ------------------------- Products ------------------------- */
 
-export async function purchaseProduct(product: Product, list: List) {}
+export async function getProductIndex(
+    product: Product,
+    list: List
+): Promise<number> {
+    try {
+        const listProductsNames = list.products.map((list) => list.name)
+        const productIndex = listProductsNames.indexOf(product.name)
+        if (productIndex === -1) return -1
 
-export async function deleteProduct(product: Product, list: List) {}
+        return productIndex
+    } catch {
+        handleError()
+        return -1
+    }
+}
+
+export async function purchaseProduct(product: Product, list: List) {
+    try {
+        const lists = await getLists()
+
+        const productIndex = await getProductIndex(product, list)
+        const listIndex = await getListIndex(list)
+        if (listIndex === -1 || productIndex === -1) return
+
+        lists[listIndex].products[productIndex].purchased = !product.purchased
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
+
+export async function deleteProduct(product: Product, list: List) {
+    try {
+        const lists = await getLists()
+
+        const productIndex = await getProductIndex(product, list)
+        const listIndex = await getListIndex(list)
+        if (listIndex === -1 || productIndex === -1) return
+
+        lists[listIndex].products.splice(productIndex, 1)
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
+
+export async function createProduct(product: Product, list: List) {
+    try {
+        const lists = await getLists()
+        const listIndex = await getListIndex(list)
+
+        const listProducts = lists[listIndex].products
+        listProducts.push(product)
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
+
+export async function changeCategory(
+    product: Product,
+    list: List,
+    newCategory: Category
+) {
+    try {
+        const lists = await getLists()
+
+        const productIndex = await getProductIndex(product, list)
+        const listIndex = await getListIndex(list)
+        if (listIndex === -1 || productIndex === -1) return
+
+        lists[listIndex].products[productIndex].category = newCategory
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
 
 /* ------------------------- Generic functions ------------------------- */
 

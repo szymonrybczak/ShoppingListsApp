@@ -1,22 +1,34 @@
 import React from 'react'
-import { View, Image, Text } from 'react-native'
+import { Image, Text, TouchableOpacity } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
 import Category from '../../models/Category'
+import APP_COLORS from '../../common/colors'
 
 interface CategoriesListScreenItemProps {
     category: Category
+    onItemPress: (category: Category) => void
+    isChosen: boolean
 }
 
 const CategoriesListScreenItem: React.FC<CategoriesListScreenItemProps> = ({
     category,
+    onItemPress,
+    isChosen,
 }) => {
     const { name, image } = category
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => onItemPress(category)}>
             <Image source={image} style={styles.image} />
-            <Text>{name}</Text>
-        </View>
+            <Text
+                style={{
+                    color: isChosen ? APP_COLORS.blue : APP_COLORS.black,
+                }}>
+                {name}
+            </Text>
+        </TouchableOpacity>
     )
 }
 

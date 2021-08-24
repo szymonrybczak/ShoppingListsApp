@@ -44,17 +44,21 @@ const ShoppingListsRouteOptions = ({
     route,
 }: {
     route: RouteProp<AppTabBarParams, 'ShoppingListsRoute'>
-}): BottomTabNavigationOptions => ({
-    title: i18n.t('my_lists'),
-    tabBarIcon: ({ focused, size }) => (
-        <Icon
-            name="list"
-            size={size}
-            color={focused ? APP_COLORS.green : APP_COLORS.gray}
-        />
-    ),
-    tabBarVisible: getFocusedRouteNameFromRoute(route) !== 'NewListScreen',
-})
+}): BottomTabNavigationOptions => {
+    const routeName = getFocusedRouteNameFromRoute(route)
+    return {
+        title: i18n.t('my_lists'),
+        tabBarIcon: ({ focused, size }) => (
+            <Icon
+                name="list"
+                size={size}
+                color={focused ? APP_COLORS.green : APP_COLORS.gray}
+            />
+        ),
+        tabBarVisible:
+            routeName !== 'NewListScreen' && routeName !== 'AddProductsScreen',
+    }
+}
 
 const ArchivedShoppingListsRouteOptions: BottomTabNavigationOptions = {
     title: i18n.t('archived_lists'),
