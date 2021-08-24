@@ -122,7 +122,9 @@ const ShoppingListsScreenItem: React.FC<ShoppingListsScreenItemProps> = ({
                         StyleSheet.absoluteFill,
                         {
                             backgroundColor: APP_COLORS.green,
-                            width: `${progressWidth}%`,
+                            width: Number.isNaN(progressWidth)
+                                ? `0%`
+                                : `${progressWidth}%`,
                         },
                     ]}
                 />
