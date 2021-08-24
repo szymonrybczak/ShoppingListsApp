@@ -27,6 +27,7 @@
         "no-use-before-define": "off",
         "react/prop-types": "off",
         "no-undef": "off",
+        "global-require": "off",
         "import/extensions": [
             "error",
             "ignorePackages",

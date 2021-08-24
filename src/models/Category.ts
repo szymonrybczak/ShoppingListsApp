@@ -1,4 +1,4 @@
-import { APP_IMAGE } from '../common/assets'
+import APP_IMAGE from '../common/images'
 
 type Category = {
     id: number

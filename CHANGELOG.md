@@ -1,3 +1,4 @@
+- Create categories list screen
 - Create list details screen
 - Create new list screen
 - Create shopping lists screen
