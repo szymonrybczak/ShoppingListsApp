@@ -49,6 +49,11 @@
   "produce": "Produce",
   "ready_meals": "Read meals",
   "snacks": "Snacks",
-  "spices_sauces_condiments": "Spices, Sauces & condiments"
+  "spices_sauces_condiments": "Spices, Sauces & condiments",
+  "product_name": "Product name",
+  "product_name_is_empty": "Product name can't be empty!",
+  "category_not_choose": "Please choose category!",
+  "product_with_this_name_is_already_created": "Product with this name is already created!",
+  "successfully_deleted_product": "Successfully deleted product!"
 }
 

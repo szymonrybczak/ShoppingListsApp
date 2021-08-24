@@ -1,3 +1,4 @@
+- Create add product screen
 - Create categories list screen
 - Create list details screen
 - Create new list screen

@@ -83,7 +83,9 @@ const NewListScreenOptions: StackNavigationOptions = {
     headerShown: false,
 }
 
-const AddProductScreenOptions: StackNavigationOptions = {}
+const AddProductScreenOptions: StackNavigationOptions = {
+    headerShown: false,
+}
 
 const ProductDetailsScreenOptions: StackNavigationOptions = {}
 
