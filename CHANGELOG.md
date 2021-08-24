@@ -1,3 +1,4 @@
+- Create list details screen
 - Create new list screen
 - Create shopping lists screen
 - Create navigators and views

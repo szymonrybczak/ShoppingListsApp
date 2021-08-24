@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import { handleError } from './AppAlertManager'
 import List from '../models/List'
+import Product from '../models/Product'
 
 /* ------------------------- Lists ------------------------- */
 
@@ -17,7 +18,7 @@ export async function renameList(list: List, newName: string) {
     try {
         const lists = await getLists()
 
-        const listIndex = await getListIndex(list)
+        const listIndex = await getListIndex(list.id)
         if (listIndex === -1) return
 
         lists[listIndex].name = newName
@@ -32,7 +33,7 @@ export async function deleteList(list: List) {
     try {
         const lists = await getLists()
 
-        const listIndex = await getListIndex(list)
+        const listIndex = await getListIndex(list.id)
         if (listIndex === -1) return
 
         lists.splice(listIndex, 1)
@@ -54,14 +55,14 @@ export async function createList(list: List) {
     }
 }
 
-export async function getListIndex(list: List): Promise<number> {
+export async function getListIndex(id: number): Promise<number> {
     const defaultReturnValue = -1
 
     try {
         const lists = await getLists()
         const listsIds = lists.map((list) => list.id)
 
-        const listIndex = listsIds.indexOf(list.id)
+        const listIndex = listsIds.indexOf(id)
 
         if (listIndex === -1) return defaultReturnValue
         if (lists[listIndex] === undefined) return defaultReturnValue
@@ -72,6 +73,26 @@ export async function getListIndex(list: List): Promise<number> {
         return defaultReturnValue
     }
 }
+
+export async function getList(id: number): Promise<List> {
+    try {
+        const lists = await getLists()
+
+        const listIndex = await getListIndex(id)
+        if (listIndex === -1) return DefaultValues.list
+
+        return lists[listIndex]
+    } catch {
+        handleError()
+        return DefaultValues.list
+    }
+}
+
+/* ------------------------- Products ------------------------- */
+
+export async function purchaseProduct(product: Product, list: List) {}
+
+export async function deleteProduct(product: Product, list: List) {}
 
 /* ------------------------- Generic functions ------------------------- */
 
@@ -101,7 +122,7 @@ const DefaultValues = {
     lists: [],
     list: {
         id: 0,
-        title: '',
+        name: '',
         products: [],
         archived: false,
     },
