@@ -89,6 +89,50 @@ export async function getList(list: List): Promise<List> {
     }
 }
 
+/* ------------------------- Archived lists ------------------------- */
+
+export async function getArchivedLists(): Promise<List[]> {
+    try {
+        const lists = await getFromAsyncStorage('lists')
+        if (lists.length === 0) return []
+
+        return lists.filter((list: List) => list.archived)
+    } catch {
+        handleError()
+        return DefaultValues.lists
+    }
+}
+
+export async function archiveList(list: List) {
+    try {
+        const lists = await getLists()
+
+        const listIndex = await getListIndex(list)
+        if (listIndex === -1) return
+
+        lists[listIndex].archived = true
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
+
+export async function restoreList(list: List) {
+    try {
+        const lists = await getLists()
+
+        const listIndex = await getListIndex(list)
+        if (listIndex === -1) return
+
+        lists[listIndex].archived = false
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
+
 /* ------------------------- Product ------------------------- */
 
 export async function createProduct(product: Product, list: List) {

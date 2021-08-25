@@ -65,6 +65,12 @@
   "save": "Save",
   "discard_changes_question": "Discard changes?",
   "unsaved_changes_description": "You have unsaved changes.",
-  "discard_changes": "Discard \nchanges"
+  "discard_changes": "Discard changes",
+  "restore": "Restore",
+  "archive": "Archive",
+  "archived_lists_placeholder_text": "There aren't any archived lists.",
+  "archive_list_alert_title": "Archive list",
+  "archive_list_alert_description": "Are you sure you want to archive this list? You can always restore the list.",
+  "successfully_restored_list": "Successfully restored list!"
 }
 
