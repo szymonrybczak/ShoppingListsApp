@@ -8,6 +8,7 @@ const App = () => (
     <View style={styles.container}>
         <AppNavigation />
         <DropdownAlert
+            closeInterval={2500}
             ref={(ref: DropdownAlert) => AppAlertManager.setDropdown(ref)}
         />
     </View>

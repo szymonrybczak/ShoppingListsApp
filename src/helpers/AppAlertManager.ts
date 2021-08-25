@@ -42,11 +42,7 @@ export default class AppAlertManager {
         title: string,
         description: string
     ) {
-        if (this.showDefaultAlert()) {
-            Alert.alert(title, description)
-            return
-        }
-
+        this.dropdown.closeAction()
         this.dropdown.alertWithType(type, title, description)
     }
 }

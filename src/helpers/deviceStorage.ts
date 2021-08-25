@@ -89,7 +89,37 @@ export async function getList(list: List): Promise<List> {
     }
 }
 
-/* ------------------------- Products ------------------------- */
+/* ------------------------- Product ------------------------- */
+
+export async function createProduct(product: Product, list: List) {
+    try {
+        const lists = await getLists()
+        const listIndex = await getListIndex(list)
+
+        const listProducts = lists[listIndex].products
+        listProducts.push(product)
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
+
+export async function deleteProduct(product: Product, list: List) {
+    try {
+        const lists = await getLists()
+
+        const productIndex = await getProductIndex(product, list)
+        const listIndex = await getListIndex(list)
+        if (listIndex === -1 || productIndex === -1) return
+
+        lists[listIndex].products.splice(productIndex, 1)
+
+        await saveToAsyncStorage('lists', JSON.stringify(lists))
+    } catch {
+        handleError()
+    }
+}
 
 export async function getProductIndex(
     product: Product,
@@ -123,40 +153,15 @@ export async function purchaseProduct(product: Product, list: List) {
     }
 }
 
-export async function deleteProduct(product: Product, list: List) {
-    try {
-        const lists = await getLists()
-
-        const productIndex = await getProductIndex(product, list)
-        const listIndex = await getListIndex(list)
-        if (listIndex === -1 || productIndex === -1) return
-
-        lists[listIndex].products.splice(productIndex, 1)
-
-        await saveToAsyncStorage('lists', JSON.stringify(lists))
-    } catch {
-        handleError()
-    }
-}
-
-export async function createProduct(product: Product, list: List) {
-    try {
-        const lists = await getLists()
-        const listIndex = await getListIndex(list)
-
-        const listProducts = lists[listIndex].products
-        listProducts.push(product)
-
-        await saveToAsyncStorage('lists', JSON.stringify(lists))
-    } catch {
-        handleError()
-    }
-}
-
-export async function changeCategory(
+export async function setProductDetail(
     product: Product,
     list: List,
-    newCategory: Category
+    payload: {
+        productCategory?: Category
+        productName?: string
+        productQuantity?: number
+        productUnit?: string
+    }
 ) {
     try {
         const lists = await getLists()
@@ -165,7 +170,15 @@ export async function changeCategory(
         const listIndex = await getListIndex(list)
         if (listIndex === -1 || productIndex === -1) return
 
-        lists[listIndex].products[productIndex].category = newCategory
+        const currentProduct = lists[listIndex].products[productIndex]
+
+        const { productCategory, productName, productQuantity, productUnit } =
+            payload
+
+        if (productCategory) currentProduct.category = productCategory
+        if (productName) currentProduct.name = productName
+        if (productQuantity) currentProduct.quantity = productQuantity
+        if (productUnit) currentProduct.unit = productUnit
 
         await saveToAsyncStorage('lists', JSON.stringify(lists))
     } catch {
@@ -195,14 +208,21 @@ export async function saveToAsyncStorage(key: Keys, value: string) {
     }
 }
 
-type Keys = 'lists' | 'list'
+type Keys = 'lists'
 
-const DefaultValues = {
+export const DefaultValues = {
     lists: [],
     list: {
         id: 0,
         name: '',
         products: [],
         archived: false,
+    },
+    product: {
+        name: '',
+        category: { id: 0, name: '', image: '' },
+        unit: '',
+        quantity: 0,
+        purchased: false,
     },
 }

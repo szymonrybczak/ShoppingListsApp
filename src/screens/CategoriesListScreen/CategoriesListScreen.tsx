@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, FlatList, StyleSheet } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
@@ -9,7 +9,8 @@ import CategoriesListScreenItem from './CategoriesListScreenItem'
 import APP_COLORS from '../../common/colors'
 import ShoppingListsRouteParams from '../../navigation/ShoppingLists/ShoppingListsRouteParams'
 import { handleError } from '../../helpers/AppAlertManager'
-import { changeCategory } from '../../helpers/deviceStorage'
+import { setProductDetail } from '../../helpers/deviceStorage'
+import AppActivityIndicator from '../../components/AppActivityIndicator'
 
 type CategoriesListScreenNavigationProp = StackNavigationProp<
     ShoppingListsRouteParams,
@@ -30,27 +31,35 @@ const CategoriesListScreen: React.FC<CategoriesListScreenProps> = ({
     route,
     navigation,
 }) => {
-    /* ------------------------- Handlers ------------------------- */
+    const [loading, setLoading] = useState<boolean>(false)
 
+    /* ------------------------- Handlers ------------------------- */
     const handleItemPress = async (newCategory: Category) => {
         try {
-            const { product, list, setCategory } = route.params
+            const { product, list, setProductCategory } = route.params
 
-            if (setCategory) {
-                setCategory(newCategory)
+            if (setProductCategory) {
+                setProductCategory(newCategory)
                 navigation.goBack()
             }
 
             if (product && list) {
-                await changeCategory(product, list, newCategory)
+                setLoading(true)
+                await setProductDetail(product, list, {
+                    productCategory: newCategory,
+                })
                 navigation.goBack()
             }
         } catch {
             handleError()
+        } finally {
+            setLoading(false)
         }
     }
 
     /* ------------------------- Rendering ------------------------- */
+
+    const renderActivityIndicator = (): JSX.Element => <AppActivityIndicator />
 
     const renderCategoriesList = (): JSX.Element => (
         <FlatList
@@ -71,7 +80,12 @@ const CategoriesListScreen: React.FC<CategoriesListScreenProps> = ({
         )
     }
 
-    return <View style={styles.container}>{renderCategoriesList()}</View>
+    return (
+        <View style={styles.container}>
+            {renderCategoriesList()}
+            {loading && renderActivityIndicator()}
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

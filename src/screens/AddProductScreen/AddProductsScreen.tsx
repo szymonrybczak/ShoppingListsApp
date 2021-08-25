@@ -41,14 +41,14 @@ const AddProductsScreen: React.FC<AddProductsScreenProps> = ({
     route,
 }) => {
     const [productName, setProductName] = useState<string>('')
-    const [category, setCategory] = useState<Category>()
+    const [category, setProductCategory] = useState<Category>()
     const [loading, setLoading] = useState<boolean>(false)
 
     /* ------------------------- Handlers ------------------------- */
 
     const handleNavigateToCategoriesListScreen = () => {
         navigation.navigate('CategoriesListScreen', {
-            setCategory,
+            setProductCategory,
             chosenCategory: category || undefined,
         })
     }

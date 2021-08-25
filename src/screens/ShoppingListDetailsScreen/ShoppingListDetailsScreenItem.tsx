@@ -39,7 +39,7 @@ const ShoppingListDetailsScreenItem: React.FC<ShoppingListDetailsScreenItemProps
         }
 
         const handleNavigateToProductDetailsScreen = () => {
-            navigation.navigate('ProductDetailsScreen')
+            navigation.navigate('ProductDetailsScreen', { product, list })
         }
 
         const handleNavigateToCategoriesListScreen = () => {
