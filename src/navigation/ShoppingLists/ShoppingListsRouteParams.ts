@@ -14,6 +14,7 @@ type ShoppingListsRouteParams = {
         setProductCategory?: (category: Category) => void
         chosenCategory?: Category
     }
+    ArchivedShoppingListsRoute: undefined
 }
 
 export default ShoppingListsRouteParams

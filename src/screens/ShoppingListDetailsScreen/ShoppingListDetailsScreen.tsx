@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, View, StyleSheet } from 'react-native'
+import { FlatList, View, Text, TouchableOpacity } from 'react-native'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { ScaledSheet } from 'react-native-size-matters'
+import Dialog from 'react-native-dialog'
 import ShoppingListsRouteParams from '../../navigation/ShoppingLists/ShoppingListsRouteParams'
 import Product from '../../models/Product'
 import AppActivityIndicator from '../../components/AppActivityIndicator'
@@ -9,10 +11,11 @@ import PlaceholderComponent from '../../components/PlaceholderComponent'
 import APP_IMAGE from '../../common/images'
 import i18n from '../../common/i18n/i18n'
 import CreateButton from '../../components/CreateButton'
-import { getList } from '../../helpers/deviceStorage'
+import { getList, archiveList } from '../../helpers/deviceStorage'
 import { handleError } from '../../helpers/AppAlertManager'
 import ShoppingListDetailsScreenItem from './ShoppingListDetailsScreenItem'
 import List from '../../models/List'
+import APP_COLORS from '../../common/colors'
 
 type ShoppingListDetailsScreenRouteProp = RouteProp<
     ShoppingListsRouteParams,
@@ -35,9 +38,11 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
 }) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [list, setList] = useState<List>(route.params.list)
+    const [archiveListAlertVisible, setArchiveListAlertVisible] =
+        useState<boolean>(false)
 
     useEffect(() => {
-        setNavigationTitle()
+        setNavigationBar()
 
         navigation.addListener('focus', fetchProducts)
         return () => {
@@ -51,21 +56,37 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
         setLoading(true)
 
         getList(list)
-            .then((list) => setList(list))
+            .then(setList)
             .catch(handleError)
             .finally(() => setLoading(false))
     }
 
     /* ------------------------- Update UI ------------------------- */
 
-    const setNavigationTitle = () => {
-        navigation.setOptions({ title: list.name })
+    const setNavigationBar = () => {
+        navigation.setOptions({
+            title: list.name,
+            headerRight: renderArchiveButton,
+        })
     }
 
     /* ------------------------- Handlers ------------------------- */
 
     const handleNavigateToAddProductScreen = () =>
         navigation.navigate('AddProductsScreen', { list })
+
+    const handleArchiveList = async () => {
+        toggleArchiveListAlertVisible()
+        await archiveList(route.params.list)
+
+        navigation.navigate('ShoppingListsScreen')
+        navigation.navigate('ArchivedShoppingListsRoute')
+    }
+
+    /* ------------------------- Utils ------------------------- */
+
+    const toggleArchiveListAlertVisible = () =>
+        setArchiveListAlertVisible((prevState) => !prevState)
 
     /* ------------------------- Render functions ------------------------- */
 
@@ -104,18 +125,50 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
         <CreateButton onPress={handleNavigateToAddProductScreen} />
     )
 
+    const renderArchiveButton = (): JSX.Element => (
+        <TouchableOpacity onPress={toggleArchiveListAlertVisible}>
+            <Text style={styles.archiveButtonLabel}>{i18n.t('archive')}</Text>
+        </TouchableOpacity>
+    )
+
+    const renderArchiveListAlert = (): JSX.Element => (
+        <Dialog.Container visible={archiveListAlertVisible}>
+            <Dialog.Title>{i18n.t('archive_list_alert_title')}</Dialog.Title>
+            <Dialog.Description>
+                {i18n.t('archive_list_alert_description')}
+            </Dialog.Description>
+
+            <Dialog.Button
+                label={i18n.t('cancel')}
+                onPress={toggleArchiveListAlertVisible}
+            />
+            <Dialog.Button
+                label={i18n.t('archive')}
+                onPress={handleArchiveList}
+                bold
+            />
+        </Dialog.Container>
+    )
+
     return (
         <View style={styles.container}>
             {loading && renderActivityIndicator()}
             {renderProductsList()}
             {renderNewProductButton()}
+            {renderArchiveListAlert()}
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container: {
         flex: 1,
+    },
+    archiveButtonLabel: {
+        paddingRight: '4@ms',
+        fontSize: '14@ms',
+        fontWeight: '500',
+        color: APP_COLORS.white,
     },
 })
 

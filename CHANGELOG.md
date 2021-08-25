@@ -1,3 +1,4 @@
+- Add list archiving feature
 - Create product details screen
 - Fix empty progress bar on Android
 - Create add product screen
