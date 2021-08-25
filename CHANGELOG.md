@@ -1,3 +1,4 @@
+- Create product details screen
 - Fix empty progress bar on Android
 - Create add product screen
 - Create categories list screen

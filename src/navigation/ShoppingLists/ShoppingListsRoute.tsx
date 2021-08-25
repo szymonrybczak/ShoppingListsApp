@@ -87,7 +87,9 @@ const AddProductScreenOptions: StackNavigationOptions = {
     headerShown: false,
 }
 
-const ProductDetailsScreenOptions: StackNavigationOptions = {}
+const ProductDetailsScreenOptions: StackNavigationOptions = {
+    headerTitle: ' ',
+}
 
 const CategoriesListScreenOptions: StackNavigationOptions = {
     title: i18n.t('choose_category'),

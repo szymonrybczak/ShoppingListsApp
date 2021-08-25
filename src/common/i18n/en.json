@@ -54,6 +54,17 @@
   "product_name_is_empty": "Product name can't be empty!",
   "category_not_choose": "Please choose category!",
   "product_with_this_name_is_already_created": "Product with this name is already created!",
-  "successfully_deleted_product": "Successfully deleted product!"
+  "category": "Category",
+  "successfully_deleted_product": "Successfully deleted product!",
+  "unit": "Unit",
+  "quantity": "Quantity",
+  "unit_kg": "kg",
+  "unit_g": "g",
+  "unit_l": "l",
+  "unit_ml": "ml",
+  "save": "Save",
+  "discard_changes_question": "Discard changes?",
+  "unsaved_changes_description": "You have unsaved changes.",
+  "discard_changes": "Discard \nchanges"
 }
 

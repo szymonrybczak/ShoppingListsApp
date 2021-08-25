@@ -7,11 +7,11 @@ type ShoppingListsRouteParams = {
     ShoppingListDetailsScreen: { list: List }
     NewListScreen: undefined
     AddProductsScreen: { list: List }
-    ProductDetailsScreen: undefined
+    ProductDetailsScreen: { product: Product; list: List }
     CategoriesListScreen: {
         product?: Product
         list?: List
-        setCategory?: (category: Category) => void
+        setProductCategory?: (category: Category) => void
         chosenCategory?: Category
     }
 }

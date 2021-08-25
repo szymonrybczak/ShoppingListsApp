@@ -28,6 +28,7 @@
         "react/prop-types": "off",
         "no-undef": "off",
         "global-require": "off",
+        "no-shadow": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
