@@ -1,3 +1,4 @@
+- Add app icon
 - Add list archiving feature
 - Create product details screen
 - Fix empty progress bar on Android
@@ -7,5 +8,5 @@
 - Create new list screen
 - Create shopping lists screen
 - Create navigators and views
-- Add dropdown alert manager  
+- Add dropdown alert manager
 - Add i18n
