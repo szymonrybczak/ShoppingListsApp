@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, View, StyleSheet } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import List from '../../models/List'
 import ShoppingListsRouteParams from '../../navigation/ShoppingLists/ShoppingListsRouteParams'
@@ -12,7 +12,7 @@ import AppActivityIndicator from '../../components/AppActivityIndicator'
 import CreateButton from '../../components/CreateButton'
 import ShoppingListsScreenItem from './ShoppingListsScreenItem'
 
-type ShoppingListsScreenNavigationProp = StackNavigationProp<
+export type ShoppingListsScreenNavigationProp = StackNavigationProp<
     ShoppingListsRouteParams,
     'ShoppingListsScreen'
 >
@@ -42,7 +42,7 @@ const ShoppingListsScreen: React.FC<ShoppingListsScreenProps> = ({
         setLoading(true)
 
         getLists()
-            .then((res) => setLists(filterLists(res)))
+            .then((lists) => setLists(filterLists(lists)))
             .catch(handleError)
             .finally(() => setLoading(false))
     }

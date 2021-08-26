@@ -1,22 +1,16 @@
 import React, { useRef } from 'react'
 import { View, Text, Image, TouchableOpacity, Animated } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
-import CheckBox from '@react-native-community/checkbox'
-import { StackNavigationProp } from '@react-navigation/stack'
+import { CheckBox } from 'react-native-elements'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import List from '../../models/List'
 import Product from '../../models/Product'
-import ShoppingListsRouteParams from '../../navigation/ShoppingLists/ShoppingListsRouteParams'
 import APP_COLORS from '../../common/colors'
 import { purchaseProduct, deleteProduct } from '../../helpers/deviceStorage'
 import i18n from '../../common/i18n/i18n'
 import AppAlertManager, { handleError } from '../../helpers/AppAlertManager'
 import renderRightAction from '../../helpers/SwipeableHelper'
-
-type ShoppingListDetailsScreenNavigationProp = StackNavigationProp<
-    ShoppingListsRouteParams,
-    'ShoppingListDetailsScreen'
->
+import { ShoppingListDetailsScreenNavigationProp } from './ShoppingListDetailsScreen'
 
 interface ShoppingListDetailsScreenItemProps {
     navigation: ShoppingListDetailsScreenNavigationProp
@@ -34,8 +28,12 @@ const ShoppingListDetailsScreenItem: React.FC<ShoppingListDetailsScreenItemProps
         /* ------------------------- Handlers ------------------------- */
 
         const handleChangePurchasedStatus = async () => {
-            await purchaseProduct(product, list)
-            await fetchProducts()
+            try {
+                await purchaseProduct(product, list)
+                await fetchProducts()
+            } catch {
+                handleError()
+            }
         }
 
         const handleNavigateToProductDetailsScreen = () => {
@@ -70,16 +68,23 @@ const ShoppingListDetailsScreenItem: React.FC<ShoppingListDetailsScreenItemProps
 
         const renderCheckBox = (): JSX.Element => (
             <CheckBox
-                value={purchased}
-                onValueChange={handleChangePurchasedStatus}
+                checkedColor={APP_COLORS.green}
+                checked={purchased}
+                onPress={handleChangePurchasedStatus}
             />
         )
 
-        const renderNameLabel = (): JSX.Element => (
-            <Text style={styles.name} numberOfLines={1}>
-                {name}
-            </Text>
-        )
+        const renderNameLabel = (): JSX.Element => {
+            const color = product.purchased
+                ? APP_COLORS.darkGray
+                : APP_COLORS.black
+
+            return (
+                <Text style={[styles.name, { color }]} numberOfLines={1}>
+                    {name}
+                </Text>
+            )
+        }
 
         const renderQuantityAndUnitLabel = (): JSX.Element => (
             <View style={styles.quantityUnitLabelContainer}>

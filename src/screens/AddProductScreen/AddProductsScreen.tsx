@@ -116,7 +116,7 @@ const AddProductsScreen: React.FC<AddProductsScreenProps> = ({
         <TextInput
             autoFocus
             value={productName}
-            onChangeText={(text) => setProductName(text)}
+            onChangeText={setProductName}
             style={styles.nameTextInput}
             textAlign="center"
             placeholder={i18n.t('product_name')}

@@ -1,8 +1,8 @@
 import React from 'react'
 import {
     NavigationContainer,
-    getFocusedRouteNameFromRoute,
     RouteProp,
+    getFocusedRouteNameFromRoute,
 } from '@react-navigation/native'
 import {
     BottomTabBarOptions,
@@ -46,6 +46,7 @@ const ShoppingListsRouteOptions = ({
     route: RouteProp<AppTabBarParams, 'ShoppingListsRoute'>
 }): BottomTabNavigationOptions => {
     const routeName = getFocusedRouteNameFromRoute(route)
+
     return {
         title: i18n.t('my_lists'),
         tabBarIcon: ({ focused, size }) => (

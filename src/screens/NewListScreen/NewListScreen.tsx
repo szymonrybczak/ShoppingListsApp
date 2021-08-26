@@ -73,7 +73,7 @@ const NewListScreen: React.FC<NewListsScreenProps> = ({ navigation }) => {
             returnKeyType="done"
             onSubmitEditing={handleCreateList}
             value={listName}
-            onChangeText={(text: string) => setListName(text)}
+            onChangeText={setListName}
             style={styles.textInput}
             textAlign="center"
         />

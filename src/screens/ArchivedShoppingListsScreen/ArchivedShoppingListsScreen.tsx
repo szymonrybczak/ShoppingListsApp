@@ -11,7 +11,7 @@ import AppActivityIndicator from '../../components/AppActivityIndicator'
 import ArchivedShoppingListsScreenItem from './ArchivedShoppingListScreenItem'
 import List from '../../models/List'
 
-type ArchivedShoppingListsScreenNavigationProp = StackNavigationProp<
+export type ArchivedShoppingListsScreenNavigationProp = StackNavigationProp<
     ArchivedShoppingListsRouteParams,
     'ArchivedShoppingListsScreen'
 >

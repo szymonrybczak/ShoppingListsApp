@@ -22,7 +22,7 @@ type ShoppingListDetailsScreenRouteProp = RouteProp<
     'ShoppingListDetailsScreen'
 >
 
-type ShoppingListDetailsScreenNavigationProp = StackNavigationProp<
+export type ShoppingListDetailsScreenNavigationProp = StackNavigationProp<
     ShoppingListsRouteParams,
     'ShoppingListDetailsScreen'
 >
@@ -76,11 +76,19 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
         navigation.navigate('AddProductsScreen', { list })
 
     const handleArchiveList = async () => {
-        toggleArchiveListAlertVisible()
-        await archiveList(route.params.list)
+        try {
+            toggleArchiveListAlertVisible()
+            setLoading(true)
 
-        navigation.navigate('ShoppingListsScreen')
-        navigation.navigate('ArchivedShoppingListsRoute')
+            await archiveList(route.params.list)
+
+            navigation.navigate('ShoppingListsScreen')
+            navigation.navigate('ArchivedShoppingListsRoute')
+        } catch {
+            handleError()
+        } finally {
+            setLoading(false)
+        }
     }
 
     /* ------------------------- Utils ------------------------- */
@@ -117,6 +125,7 @@ const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps> = ({
                 data={list.products}
                 renderItem={({ item }) => renderItem(item)}
                 keyExtractor={(item) => item.name}
+                showsVerticalScrollIndicator={false}
             />
         )
     }
