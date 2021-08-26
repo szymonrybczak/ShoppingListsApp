@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     StackNavigationOptions,
-    StackNavigationProp,
     HeaderBackButton,
     createStackNavigator,
 } from '@react-navigation/stack'
@@ -13,7 +12,9 @@ import ProductDetailsScreen from '../../screens/ProductDetailsSreen/ProductDetai
 import CategoriesListScreen from '../../screens/CategoriesListScreen/CategoriesListScreen'
 import i18n from '../../common/i18n/i18n'
 import APP_COLORS from '../../common/colors'
-import ShoppingListDetailsScreen from '../../screens/ShoppingListDetailsScreen/ShoppingListDetailsScreen'
+import ShoppingListDetailsScreen, {
+    ShoppingListDetailsScreenNavigationProp,
+} from '../../screens/ShoppingListDetailsScreen/ShoppingListDetailsScreen'
 
 const Stack = createStackNavigator<ShoppingListsRouteParams>()
 
@@ -65,10 +66,7 @@ const ShoppingListsScreenOptions: StackNavigationOptions = {
 const ShoppingListDetailsScreenOptions = ({
     navigation,
 }: {
-    navigation: StackNavigationProp<
-        ShoppingListsRouteParams,
-        'ShoppingListDetailsScreen'
-    >
+    navigation: ShoppingListDetailsScreenNavigationProp
 }): StackNavigationOptions => ({
     headerLeft: () => (
         <HeaderBackButton

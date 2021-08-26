@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { handleError } from './AppAlertManager'
 import List from '../models/List'
 import Product from '../models/Product'
@@ -261,12 +261,5 @@ export const DefaultValues = {
         name: '',
         products: [],
         archived: false,
-    },
-    product: {
-        name: '',
-        category: { id: 0, name: '', image: '' },
-        unit: '',
-        quantity: 0,
-        purchased: false,
     },
 }

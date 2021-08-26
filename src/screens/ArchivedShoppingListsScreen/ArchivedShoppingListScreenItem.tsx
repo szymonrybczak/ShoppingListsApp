@@ -1,24 +1,14 @@
 import React from 'react'
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Animated,
-    StyleSheet,
-} from 'react-native'
-import { StackNavigationProp } from '@react-navigation/stack'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
 import i18n from '../../common/i18n/i18n'
 import AppAlertManager, { handleError } from '../../helpers/AppAlertManager'
 import { deleteList, restoreList } from '../../helpers/deviceStorage'
 import List from '../../models/List'
-import ArchivedShoppingListsRouteParams from '../../navigation/ArchivedShoppingLists/ArchivedShoppingListsRouteParams'
 import APP_COLORS from '../../common/colors'
-
-type ArchivedShoppingListsScreenNavigationProp = StackNavigationProp<
-    ArchivedShoppingListsRouteParams,
-    'ArchivedShoppingListsScreen'
->
+import PurchasedProductsCounter from '../../components/PurchasedProductsCounter'
+import ProductsProgressBar from '../../components/ProductsProgressBar'
+import { ArchivedShoppingListsScreenNavigationProp } from './ArchivedShoppingListsScreen'
 
 interface ArchivedShoppingListsScreenItemProps {
     list: List
@@ -67,45 +57,18 @@ const ArchivedShoppingListsScreenItem: React.FC<ArchivedShoppingListsScreenItemP
             )
         }
 
-        /* ------------------------- Utils ------------------------- */
-
-        const purchasedProductsAmount = products.filter(
-            (product) => product.purchased
-        ).length
-
         /* ------------------------- Rendering functions ------------------------- */
 
         const renderNamePurchasedLabel = (): JSX.Element => (
             <View style={styles.titlePurchasedLabelContainer}>
                 <Text style={styles.title}>{name}</Text>
-                <Text
-                    style={
-                        styles.purchasedLabel
-                    }>{`${purchasedProductsAmount}/${products.length}`}</Text>
+                <PurchasedProductsCounter products={products} />
             </View>
         )
 
-        const renderProgressBar = (): JSX.Element => {
-            const fullWidth = 100
-            const progressWidth =
-                (fullWidth / products.length) * purchasedProductsAmount
-
-            return (
-                <View style={styles.progressBarContainer}>
-                    <Animated.View
-                        style={[
-                            StyleSheet.absoluteFill,
-                            {
-                                backgroundColor: APP_COLORS.green,
-                                width: Number.isNaN(progressWidth)
-                                    ? `0%`
-                                    : `${progressWidth}%`,
-                            },
-                        ]}
-                    />
-                </View>
-            )
-        }
+        const renderProgressBar = (): JSX.Element => (
+            <ProductsProgressBar products={products} />
+        )
 
         const renderButtons = (): JSX.Element => (
             <View style={styles.buttonsContainer}>
@@ -161,18 +124,10 @@ const styles = ScaledSheet.create({
     title: {
         fontSize: '16@ms',
     },
-    purchasedLabel: {
-        fontSize: '16@ms',
-        color: APP_COLORS.green,
-    },
     buttonsContainer: {
         flexDirection: 'row',
         width: '100%',
         marginTop: '16@ms',
-    },
-    progressBarContainer: {
-        height: '4@ms',
-        backgroundColor: APP_COLORS.lightGray,
     },
     baseButton: {
         flex: 1,

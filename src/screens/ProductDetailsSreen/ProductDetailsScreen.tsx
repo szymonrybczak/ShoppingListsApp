@@ -59,21 +59,15 @@ const ProductDetailsScreen: React.FC<ProductDetailsScreenProps> = ({
     const quantityComponentAnimatedValue = new Animated.Value(0)
 
     useEffect(() => {
-        addSaveButton()
-        addBackButton()
+        setNavigationBar()
     })
 
     /* ------------------------- Update UI ------------------------- */
 
-    const addSaveButton = () => {
-        navigation.setOptions({
-            headerRight: renderSaveButton,
-        })
-    }
-
-    const addBackButton = () => {
+    const setNavigationBar = () => {
         navigation.setOptions({
             headerLeft: renderBackButton,
+            headerRight: renderSaveButton,
         })
     }
 
@@ -136,10 +130,11 @@ const ProductDetailsScreen: React.FC<ProductDetailsScreenProps> = ({
             if (productCategoryChanged)
                 await setProductDetail(product, list, { productCategory })
 
-            setLoading(false)
             navigation.goBack()
         } catch {
             handleError()
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -305,12 +300,9 @@ const ProductDetailsScreen: React.FC<ProductDetailsScreenProps> = ({
             <Dialog.Button
                 label={i18n.t('discard_changes')}
                 onPress={handleDiscardChanges}
-            />
-            <Dialog.Button
-                label={i18n.t('save')}
-                onPress={handleSaveAll}
                 bold
             />
+            <Dialog.Button label={i18n.t('save')} onPress={handleSaveAll} />
         </Dialog.Container>
     )
 
@@ -392,6 +384,7 @@ const styles = ScaledSheet.create({
     quantityComponentContainer: {
         flexDirection: 'row',
         flex: 3,
+        alignItems: 'center',
     },
     quantityTextInput: {
         fontSize: '16@ms',

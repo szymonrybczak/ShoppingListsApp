@@ -1,27 +1,17 @@
 import React, { useRef, useState } from 'react'
-import {
-    View,
-    TouchableOpacity,
-    Text,
-    Animated,
-    StyleSheet,
-} from 'react-native'
-import { StackNavigationProp } from '@react-navigation/stack'
+import { View, TouchableOpacity, Text, Animated } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { ScaledSheet } from 'react-native-size-matters'
 import Dialog from 'react-native-dialog'
-import ShoppingListsRouteParams from '../../navigation/ShoppingLists/ShoppingListsRouteParams'
 import List from '../../models/List'
 import APP_COLORS from '../../common/colors'
 import renderRightAction from '../../helpers/SwipeableHelper'
 import i18n from '../../common/i18n/i18n'
 import AppAlertManager, { handleError } from '../../helpers/AppAlertManager'
 import { renameList, deleteList } from '../../helpers/deviceStorage'
-
-type ShoppingListsScreenNavigationProp = StackNavigationProp<
-    ShoppingListsRouteParams,
-    'ShoppingListsScreen'
->
+import { ShoppingListsScreenNavigationProp } from './ShoppingListsScreen'
+import ProductsProgressBar from '../../components/ProductsProgressBar'
+import PurchasedProductsCounter from '../../components/PurchasedProductsCounter'
 
 interface ShoppingListsScreenItemProps {
     list: List
@@ -90,54 +80,31 @@ const ShoppingListsScreenItem: React.FC<ShoppingListsScreenItemProps> = ({
         setRenameListAlertVisible(false)
     }
 
-    /* ------------------------- Utils ------------------------- */
-
-    const purchasedProductsAmount = products.filter(
-        (product) => product.purchased
-    ).length
-
-    const productsAmount = products.length
+    const handleNavigateToListDetailScreen = () => {
+        navigation.navigate('ShoppingListDetailsScreen', {
+            list,
+        })
+    }
 
     /* ------------------------- Rendering functions ------------------------- */
 
     const renderNamePurchasedLabel = (): JSX.Element => (
-        <View style={styles.titlePurchasedLabelContainer}>
-            <Text style={styles.title}>{name}</Text>
-            <Text
-                style={
-                    styles.purchasedLabel
-                }>{`${purchasedProductsAmount}/${productsAmount}`}</Text>
+        <View style={styles.namePurchasedProductsLabelContainer}>
+            <Text style={styles.name}>{name}</Text>
+            <PurchasedProductsCounter products={products} />
         </View>
     )
 
-    const renderProgressBar = (): JSX.Element => {
-        const fullWidth = 100
-        const progressWidth =
-            (fullWidth / productsAmount) * purchasedProductsAmount
-
-        return (
-            <View style={styles.progressBarContainer}>
-                <Animated.View
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            backgroundColor: APP_COLORS.green,
-                            width: Number.isNaN(progressWidth)
-                                ? `0%`
-                                : `${progressWidth}%`,
-                        },
-                    ]}
-                />
-            </View>
-        )
-    }
+    const renderProgressBar = (): JSX.Element => (
+        <ProductsProgressBar products={products} />
+    )
 
     const renderRenameListAlert = (): JSX.Element => (
         <Dialog.Container visible={renameListAlertVisible}>
             <Dialog.Title>{i18n.t('change_list_name')}</Dialog.Title>
             <Dialog.Input
                 value={newListName}
-                onChangeText={(text) => setNewListName(text)}
+                onChangeText={setNewListName}
                 placeholder={i18n.t('list_name')}
             />
             <Dialog.Button
@@ -181,11 +148,7 @@ const ShoppingListsScreenItem: React.FC<ShoppingListsScreenItemProps> = ({
             renderRightActions={renderRightActions}>
             <TouchableOpacity
                 style={styles.container}
-                onPress={() =>
-                    navigation.navigate('ShoppingListDetailsScreen', {
-                        list,
-                    })
-                }>
+                onPress={handleNavigateToListDetailScreen}>
                 {renderNamePurchasedLabel()}
                 {renderProgressBar()}
                 {renderRenameListAlert()}
@@ -211,23 +174,14 @@ const styles = ScaledSheet.create({
         flexDirection: 'row',
         width: '128@ms',
     },
-    titlePurchasedLabelContainer: {
+    namePurchasedProductsLabelContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: '16@ms',
     },
-    title: {
+    name: {
         fontSize: '16@ms',
-    },
-    purchasedLabel: {
-        fontSize: '16@ms',
-        color: APP_COLORS.green,
-    },
-    progressBarContainer: {
-        height: '4@ms',
-        alignSelf: 'stretch',
-        backgroundColor: APP_COLORS.lightGray,
     },
 })
 
